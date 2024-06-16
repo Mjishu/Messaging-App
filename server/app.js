@@ -1,10 +1,28 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+require("dotenv").config()
+const mongoose = require("mongoose")
 
-var app = express();
+const app = express();
+
+//* Mongoose Connection
+
+mongoose.set("strictQuery", "false")
+const mongoDB = process.env.MONGO_URL;
+
+main().catch((err) => console.log(err));
+async function main() {
+  await mongoose.connect(mongoDB);
+}
+
+//? Routers and app usage
+
+const indexRouter = require("./routes/index");
+const userRouter = require("./routes/users");
+const messageRouter = require("./routes/messages");
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -12,15 +30,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-//?--------------------
-//?---API Handlers----
-//?--------------------
-
 app.get("/api", async(req,res)=>{
   try{
     res.json({message:"Connected!"})
   }catch(error){res.status(500).json({message:"Error Connecting"})}
 })
+
+app.use("/",indexRouter);
+app.use("/user", userRouter);
+app.use("/messages", messageRouter)
 
 //*--------------------
 //*---Error Handler----
