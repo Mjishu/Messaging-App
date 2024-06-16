@@ -6,7 +6,7 @@ const UserSchema = new Schema({
     username:{type:String, required:true},
     password: {type:String, required:true},
     email: {type:String, required:true},
-    contacts:{type:Schema.Types.ObjectId, ref:"User"},
+    contacts:{type:Schema.Types.ObjectId, ref:"User",}, //! Why isnt this showing up on user create
     aboutUser:[
         {
             location:String,

@@ -13,8 +13,9 @@ exports.user_create = asyncHandler(async(req,res,next) => {
             password: hashedPassword,
             //todo Where to put for aboutUser and contacts?
         })
-        await newUser.save()
-        res.json({message:`user created ${req.body.username}`})
+        console.log(newUser)
+        await newUser.save() 
+        res.json({message:`success`})
     }catch(error){
         res.status(500).json({message:`error creating user: ${error}`})
     }
