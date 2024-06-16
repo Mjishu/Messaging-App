@@ -5,6 +5,8 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
     username:{type:String, required:true},
     password: {type:String, required:true},
+    email: {type:String, required:true},
+    contacts:{type:Schema.Types.ObjectId, ref:"User"},
     aboutUser:[
         {
             location:String,
@@ -13,11 +15,10 @@ const UserSchema = new Schema({
             about:String
         }
     ],
-    contacts:{type:Schema.Types.ObjectId, ref:"User"},
     }, {timestamps:true})
 
 UserSchema.virtual("url").get(function(){
     return `/user/${this._id}`
 })
 
-module.exports = mongoose.model("User", UserSchema)``
+module.exports = mongoose.model("User", UserSchema)
