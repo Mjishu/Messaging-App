@@ -36,9 +36,9 @@ app.get("/api", async(req,res)=>{
   }catch(error){res.status(500).json({message:"Error Connecting"})}
 })
 
-app.use("/",indexRouter);
-app.use("/user", userRouter);
-app.use("/messages", messageRouter)
+app.use("/api",indexRouter);
+app.use("/api/user", userRouter);
+app.use("/api/messages", messageRouter)
 
 //*--------------------
 //*---Error Handler----
@@ -55,7 +55,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+
 });
 
 module.exports = app;
