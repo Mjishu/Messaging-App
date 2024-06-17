@@ -1,4 +1,5 @@
 import React from 'react'
+import Navbar from './components/generalComponents/Navbar'
 
 function App() {
   const [backendUsers,setBackendUsers] = React.useState([])
@@ -22,7 +23,9 @@ function App() {
 
   return (
     <div>
+      <Navbar/>
       <h1>App</h1>
+      
       {usersMapped}
     </div>
   )
