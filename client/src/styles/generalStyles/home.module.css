@@ -1,0 +1,21 @@
+
+.homeBody{
+    display: grid;
+    grid-template-columns: 4% 1fr;
+}
+
+.links{
+    text-decoration: none;
+    color: hsl(var(--primary));
+}
+
+.userLinks{
+    display: flex;
+    gap: 2rem;
+}
+
+.appItems{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

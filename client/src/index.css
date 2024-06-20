@@ -1,0 +1,13 @@
+:root{
+    --light-primary:  219, 38%, 90%;
+    --primary:  213, 47%, 47%;
+    --dark: 212, 64%, 19%;
+    --off-white: 0, 14%, 97%;
+}
+
+
+body{
+    margin: 0;
+    padding: 0;
+    background-color: hsl(var(--off-white));
+}

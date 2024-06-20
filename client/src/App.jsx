@@ -1,5 +1,10 @@
 import React from 'react'
 import Navbar from './components/generalComponents/Navbar'
+<<<<<<< HEAD
+=======
+import { Link } from 'react-router-dom'
+import styles from "./styles/generalStyles/home.module.css"
+>>>>>>> userProfile
 
 function App() {
   const [backendUsers,setBackendUsers] = React.useState([])
@@ -11,6 +16,12 @@ function App() {
     .catch(error => console.error(error))
   },[])
 
+  React.useEffect(()=> {
+    fetch("/api/user/current")
+    .then(res => res.json())
+    .then(data => console.log (data))
+    .catch(error => console.error(error))
+  },[])
 
   const usersMapped = backendUsers && backendUsers.map(item => {
     return (
@@ -22,11 +33,25 @@ function App() {
   })
 
   return (
+<<<<<<< HEAD
     <div>
       <Navbar/>
       <h1>App</h1>
       
       {usersMapped}
+=======
+    
+    <div className={styles.homeBody}>
+      <Navbar/>
+      <div className={styles.appItems}>
+        <h1>App</h1>
+        {usersMapped}
+        <div className={styles.userLinks}>
+          <Link to={"/sign-in"} className={styles.links}>Sign In</Link>
+          <Link to="/sign-up" className={styles.links}>Sign Up</Link>
+        </div>
+      </div>
+>>>>>>> userProfile
     </div>
   )
 }

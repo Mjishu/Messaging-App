@@ -1,0 +1,93 @@
+.signUpHolder{
+    display:flex;
+    flex-direction: column;
+    width:fit-content;
+}
+
+.signUpHolder{
+    width:fit-content;
+}
+
+.image{
+    background-color: hsl(var(--light-primary));
+    height: 100vh;
+}
+
+.body{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+
+
+.info{
+    display: grid;
+    justify-content: center;
+    text-align: center;
+    color: var(--dark );
+}
+
+.sign_up_holder{
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: 10px;
+    width: 30.4rem;
+    height: 31.25rem;
+    align-items: center;
+    box-shadow: 
+        0 41px 11px hsl(var(--primary),0),
+        0 26px 10px hsl(var(--primary),.01),
+        0 15px 9px hsl(var(--primary),.05),
+        0 6px 6px hsl(var(--primary),.09),
+        0 2px 4px hsl(var(--primary),.1)
+    ;
+}
+
+.sign_up_holder *{
+    width: fit-content;
+}
+
+.input{
+    width: 21.9rem;
+    height: 2.1rem;
+    border-radius: 10px;
+    border: 1px solid hsl(var(--light-primary));
+}
+
+.input:focus{
+    outline: none;
+}
+.home{
+    color: hsl(var(--dark));
+    text-decoration: none;
+    font-size: 1.5em;
+}
+
+.submit{
+    background-color: hsl(var(--dark));
+    border-radius: .5rem;
+    border: none;
+    color: hsl(var(--light-primary));
+    width: 12.5rem;
+    height:3.13rem;
+    font-size: 24px;
+    margin-top: 2.5rem;
+}
+.submit:hover{
+    box-shadow: 0 0 10px hsl(var(--primary));
+    /* background-color: var(--light-primary);
+    color: var(--dark); */
+}
+
+.inputItems{
+    display: flex;
+    gap: 2rem;
+    flex-direction: column;
+    align-items: center;
+}
+
+.itemInfo{
+    display: flex;
+    flex-direction: column;
+    }

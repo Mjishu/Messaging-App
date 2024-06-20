@@ -1,0 +1,17 @@
+.navbar{
+    height: 100vh;
+    background: hsl(var(--dark));
+    display: flex;
+    
+}
+
+.link{
+    color: hsl(var(--light-primary));
+    text-decoration: none;
+    font-size: 1.5rem;
+    height: fit-content;
+}
+
+.link:hover{
+    color: hsl(var(--primary));
+}
