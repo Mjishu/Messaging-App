@@ -1,10 +1,7 @@
 import React from 'react'
 import Navbar from './components/generalComponents/Navbar'
-<<<<<<< HEAD
-=======
 import { Link } from 'react-router-dom'
 import styles from "./styles/generalStyles/home.module.css"
->>>>>>> userProfile
 
 function App() {
   const [backendUsers,setBackendUsers] = React.useState([])
@@ -33,14 +30,6 @@ function App() {
   })
 
   return (
-<<<<<<< HEAD
-    <div>
-      <Navbar/>
-      <h1>App</h1>
-      
-      {usersMapped}
-=======
-    
     <div className={styles.homeBody}>
       <Navbar/>
       <div className={styles.appItems}>
@@ -51,7 +40,6 @@ function App() {
           <Link to="/sign-up" className={styles.links}>Sign Up</Link>
         </div>
       </div>
->>>>>>> userProfile
     </div>
   )
 }
