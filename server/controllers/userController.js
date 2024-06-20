@@ -113,7 +113,7 @@ exports.signed_in_user = async(req,res,next) => {
         const currentUser = req.user;
 
         if(!currentUser){
-            return res.status(401).json({message: "No User is logged in"})
+            return res.status(401).json({message: "none"})
         }
 
         const responseData = {

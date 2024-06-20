@@ -7,6 +7,9 @@
 .links{
     text-decoration: none;
     color: hsl(var(--primary));
+    background: transparent;
+    border:none;
+    font:inherit;
 }
 
 .userLinks{

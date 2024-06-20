@@ -1,13 +1,14 @@
 import React from 'react'
 import Navbar from '../generalComponents/Navbar';
 import styles from "../../styles/userStyles/sign-in-style.module.css"
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function SignIn() {
     const [userData,setUserData] = React.useState({
         username: "", 
         password: ""
     })
+    const navigate = useNavigate();
 
     function handleChange(e){
         const {name,value} = e.target;
@@ -30,7 +31,7 @@ function SignIn() {
 
         fetch("/api/user/login", fetchParams)
         .then(res => res.json())
-        .then(data => console.log(data))
+        .then(data => data.message === "success" && navigate("/"))
         .catch(error => console.error(`there was an error signing in ${error}`))
 
         

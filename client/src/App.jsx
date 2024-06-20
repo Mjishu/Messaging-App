@@ -4,41 +4,43 @@ import { Link } from 'react-router-dom'
 import styles from "./styles/generalStyles/home.module.css"
 
 function App() {
-  const [backendUsers,setBackendUsers] = React.useState([])
-
-  React.useEffect(()=>{
-    fetch("/api/user/all")
-    .then(res => res.json())
-    .then(data => setBackendUsers(data))
-    .catch(error => console.error(error))
-  },[])
+    const [currentUser, setCurrentUser] = React.useState()
 
   React.useEffect(()=> {
     fetch("/api/user/current")
     .then(res => res.json())
-    .then(data => console.log (data))
+    .then(data => setCurrentUser(data))
     .catch(error => console.error(error))
   },[])
 
-  const usersMapped = backendUsers && backendUsers.map(item => {
-    return (
-      <div key={item._id}>
-        <p>{item.username}</p> 
-        <p>{item.email}</p>
-      </div>
-    )
-  })
+    React.useEffect(()=>{console.log(currentUser)},[currentUser])
+
+function handleClick(){
+    fetch("/api/user/logout")
+    .then(res => res.json())
+    .then(data => console.log())
+    .catch(error => console.error(error))
+}
 
   return (
     <div className={styles.homeBody}>
       <Navbar/>
       <div className={styles.appItems}>
         <h1>App</h1>
-        {usersMapped}
-        <div className={styles.userLinks}>
-          <Link to={"/sign-in"} className={styles.links}>Sign In</Link>
-          <Link to="/sign-up" className={styles.links}>Sign Up</Link>
+        <div className={styles.userInfo}>
+            <h1>Welcome: {currentUser.username} </h1>
+      </div>
+        <div className={styles.userLinks}> 
+        {currentUser && currentUser.message === "none" ? (
+            <>
+                <Link to={"/sign-in"} className={styles.links}>Sign In</Link>
+                <Link to="/sign-up" className={styles.links}>Sign Up</Link>
+            </>
+        ) : null}
         </div>
+      {currentUser && currentUser.message !== "none" ?(
+          <button onClick={handleClick} className={styles.links}> Sign Out</button>
+      ) : null}
       </div>
     </div>
   )
