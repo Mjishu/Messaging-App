@@ -4,6 +4,7 @@ import Error from "./src/components/generalComponents/Error"
 import SignUp from "./src/components/userComponents/SignUp"
 import Profile from "./src/components/userComponents/Profile"
 import Messages from "./src/components/messageComponents/Messages"
+import IdMessage from "./src/components/messageComponents/IdMessage"
 
 const routes = [
     {
@@ -26,6 +27,10 @@ const routes = [
     {
         path: "/message",
         element: <Messages />
+    },
+    {
+        path: "/message/:id",
+        element: <IdMessage />
     }
 ]
 

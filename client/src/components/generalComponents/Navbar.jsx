@@ -5,6 +5,7 @@ function Navbar() {
   return (
     <div className={styles.navbar}>
         <Link to="/" className={styles.link}>Home</Link>
+        <Link to="/message" className={styles.link}><img src="" alt="messages"/></Link>
     </div>
   )
 }

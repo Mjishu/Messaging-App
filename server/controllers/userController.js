@@ -118,7 +118,8 @@ exports.signed_in_user = async(req,res,next) => {
 
         const responseData = {
             username: currentUser.username,
-            email: currentUser.email
+            email: currentUser.email,
+            id: currentUser._id,
         }
         res.json(responseData)
     }catch(error){

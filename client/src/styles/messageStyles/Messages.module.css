@@ -1,0 +1,25 @@
+.page{
+    display: flex;
+    flex-direction: row;
+}
+
+.messagesHolder{
+    height: fit-content;
+    border: 1px solid hsl(var(--primary));
+    border-radius: 10px;
+}
+
+.content{
+    display: flex;
+    flex-direction:column;
+}
+
+.searchButtonImg{
+
+}
+
+.searchButton{
+    height:fit-content;
+    border: 1px solid black;
+    background: transparent;
+}

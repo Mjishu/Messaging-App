@@ -3,8 +3,14 @@ const asyncHandler = require("express-async-handler")
 const {body,validationResult} = require("express-validator")
 
 exports.message_find = asyncHandler(async(req,res,next)=>{
-    try{
-        const messageFound = await Messages.findById(req.params.id).populate("author recipient").exec()
+    const userId = req.params.id
+    try{ // Doesnt this fine id by the userId? So it will never find the messages? Change it to messages.author:id and recipitent:id
+        const messageFound = await Messages.find({
+            $or: [
+                {author: userId},
+                {recipient: userId}
+            ]
+        }).populate("author recipient").exec()
         res.json(messageFound)
     }catch(error){res.status(500).json({message:`Error finding message: ${error}`})}
 })
@@ -13,13 +19,13 @@ exports.message_find_all = asyncHandler(async(req,res,next)=>{
     try{
         const messagesFound = await Messages.find({}).populate("author recipient").exec() //!Error here
         res.json(messagesFound)
-    }catch(error){res.status(500).json({message:`Error fetching messages: ${error}`})}
+    }catch(error){res.status(500).json({message:`Error fetching messages: ${error}` })}
 })
 
 exports.message_create = asyncHandler(async(req,res,next)=>{
     try{
         const newMessage = new Messages({
-            // author: ,//! Need passport I think for this?
+            author:req.user ,
             // recipient:  , //! Passport here too? Idk how id get the recipient yet
             body: req.body.body,
         })
@@ -52,3 +58,16 @@ exports.message_update = asyncHandler(async(req,res,next)=>{
         res.status(500).json({message:`error updating message: ${error}`})
     }
 })
+
+exports.open_message = async(req,res,next) => {
+    const messageId = req.params.id
+    try{
+        const messageFound = await Messages.findById(messageId).populate("author recipient").exec()
+        if(!messageFound){
+            res.status(400).json({message: "Message Does not exist"})
+        }
+        res.json(messageFound)
+    }catch(err){
+        res.status(500).json({message:`error fetching message: ${err}`})
+    }
+}
