@@ -3,6 +3,7 @@ import SignIn from "./src/components/userComponents/SignIn"
 import Error from "./src/components/generalComponents/Error"
 import SignUp from "./src/components/userComponents/SignUp"
 import Profile from "./src/components/userComponents/Profile"
+import Messages from "./src/components/messageComponents/Messages"
 
 const routes = [
     {
@@ -21,6 +22,10 @@ const routes = [
     {
         path:"/user/:id",
         element:<Profile/>
+    },
+    {
+        path: "/message",
+        element: <Messages />
     }
 ]
 

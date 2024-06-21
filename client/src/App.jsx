@@ -1,10 +1,11 @@
 import React from 'react'
 import Navbar from './components/generalComponents/Navbar'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import styles from "./styles/generalStyles/home.module.css"
 
 function App() {
     const [currentUser, setCurrentUser] = React.useState()
+    const navigate = useNavigate()
 
   React.useEffect(()=> {
     fetch("/api/user/current")
@@ -18,7 +19,7 @@ function App() {
 function handleClick(){
     fetch("/api/user/logout")
     .then(res => res.json())
-    .then(data => console.log())
+    .then(data => data.success == true && window.location.reload())
     .catch(error => console.error(error))
 }
 
@@ -28,7 +29,7 @@ function handleClick(){
       <div className={styles.appItems}>
         <h1>App</h1>
         <div className={styles.userInfo}>
-            <h1>Welcome: {currentUser.username} </h1>
+            <h1>Welcome: {currentUser && currentUser.username} </h1>
       </div>
         <div className={styles.userLinks}> 
         {currentUser && currentUser.message === "none" ? (
