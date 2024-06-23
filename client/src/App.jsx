@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react' 
 import Navbar from './components/generalComponents/Navbar'
 import { Link, useNavigate } from 'react-router-dom'
 import styles from "./styles/generalStyles/home.module.css"

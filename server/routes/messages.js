@@ -5,6 +5,8 @@ const messageController = require("../controllers/messageController")
 
 router.post("/create", messageController.message_create);
 
+router.post("/:messageid/send-message", messageController.message_append)
+
 router.get("/all", messageController.message_find_all);
 
 router.get("/user/:id", messageController.message_find);

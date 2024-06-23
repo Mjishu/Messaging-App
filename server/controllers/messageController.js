@@ -71,3 +71,19 @@ exports.open_message = async(req,res,next) => {
         res.status(500).json({message:`error fetching message: ${err}`})
     }
 }
+
+exports.message_append = async(req,res,next) => {
+    const messageId = req.params.messageid
+    
+    try{
+        const updatedMessage= Messages.findByIdAndUpdate(messageId,
+        {$push : {messages: req.body}},
+        {new:true}
+        );
+
+        res.json({message:"message recieved"})
+    }catch(error){
+        console.error(error)
+        res.status(500).json({message:"error sending message"})
+    }
+}
