@@ -19,7 +19,32 @@
 }
 
 .searchButton{
-    height:fit-content;
     border: 1px solid black;
     background: transparent;
+    height:fit-content;
+}
+
+.customDialog {
+  width: 300px; 
+  border-radius: 8px;
+  background-color: white;
+  padding: 20px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+}
+
+.dialogBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent backdrop */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure it's above other content */
 }

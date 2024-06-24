@@ -8,7 +8,7 @@ function IdMessage(){
     const [loading, setLoading] = React.useState(true)
     const [textValue, setTextValue] = React.useState({
         message: "",
-        author: null, //This is returning undefined?
+        author: null,
         timestamp: Date.now()
     })
 
@@ -54,7 +54,7 @@ function IdMessage(){
             }))
         }
 
-    function handleSubmit(e){
+    function handleSubmit(e){ //only works for author?
         e.preventDefault()
         const fetchParams= {method:'POST', headers:{'Content-Type': "application/json"}, body: JSON.stringify(textValue)}
 
@@ -64,12 +64,21 @@ function IdMessage(){
         .catch(err => console.error(`error sending message ${err}`))
     }
 
+    const messageBodyMapped = messageData?.body.map(message => { //need to populate body.author
+        return (
+            <div key={message._id}>
+                <p >{message.message} </p>
+                <p>{message.author} </p> 
+            </div>
+        )
+    })
+
     return (
         <div className={styles.content}>
         <Navbar/>
         <div className={styles.messageBody}>
         <h1>Your Message with {messageData?.recipient?.username}</h1>
-        <p>{messageData.body}</p>
+        {messageBodyMapped}
         <form className={styles.inputOptions} onSubmit={handleSubmit}>
         <input type="message" name="message" placeholder="message..." value={textValue.message} onChange={handleChange}/>
         <button type="submit" name="submit">Send</button>

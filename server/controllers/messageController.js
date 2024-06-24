@@ -1,6 +1,7 @@
 const Messages = require("../models/messages");
 const asyncHandler = require("express-async-handler")
 const {body,validationResult} = require("express-validator")
+const { ObjectId} = require('mongodb')
 
 exports.message_find = asyncHandler(async(req,res,next)=>{
     const userId = req.params.id
@@ -25,12 +26,13 @@ exports.message_find_all = asyncHandler(async(req,res,next)=>{
 exports.message_create = asyncHandler(async(req,res,next)=>{
     try{
         const newMessage = new Messages({
-            author:req.user ,
-            // recipient:  , //! Passport here too? Idk how id get the recipient yet
-            body: req.body.body,
+            author:req.user._id,
+            recipient: req.body.id, //! req.body.recpient?
+            //body: req.body.body,
         })
+       //console.log(newMessage)
         await newMessage.save()
-        res.json({message:"Message was created successfully"})
+        res.json({message:"Success", id:newMessage._id})
     }catch(error){res.status(500).json({message:`error creating message ${error}`})}
 })
 
@@ -74,12 +76,18 @@ exports.open_message = async(req,res,next) => {
 
 exports.message_append = async(req,res,next) => {
     const messageId = req.params.messageid
-    
+    const author = new ObjectId(req.body.author)
     try{
-        const updatedMessage= Messages.findByIdAndUpdate(messageId,
-        {$push : {messages: req.body}},
-        {new:true}
-        );
+        const newMessage = {author: author, timestamp: Date.now(), message:req.body.message }
+
+        console.log(newMessage)
+        const updatedMessage = await Messages.updateOne(
+            {_id:messageId},
+            {$push : {body: newMessage}});
+
+        if(updatedMessage.matchCount === 0 ){
+            throw new Error(`No matching message was found`)
+        }
 
         res.json({message:"message recieved"})
     }catch(error){
