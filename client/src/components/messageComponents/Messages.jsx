@@ -48,13 +48,21 @@ function Messages(){
         let messageExists = false;
         let postId;
 
-        for(const message of allMessages){
-            if(message.author._id === id && message.recipient._id === currentUser._id || message.recipient._id === id && message.author._id === currentUser._id){
+        for(const message of allMessages){ //Creates message even if one exists with both users?
+            if(message.author._id === id && message.recipient._id === currentUser.id){
                 messageExists = true
+                console.log("message exists")
                 postId = message._id
-            }}
+            }
+            else if(message.recipient._id === id && message.author._id === currentUser.id){
+                messageExists = true
+                console.log("message exists")
+                postId = message._id
+            }
+        }
         if(messageExists){navigate(`/message/${postId}`)}
         else{
+            console.log("message does not exist")
             fetch("/api/messages/create", {method:'POST', headers:{"Content-Type":"application/json"}, body:JSON.stringify({id:id})})
             .then(res => res.json())
             .then(data => data.message === "Success" && navigate(`/message/${data.id}`))
