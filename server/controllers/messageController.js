@@ -64,7 +64,7 @@ exports.message_update = asyncHandler(async(req,res,next)=>{
 exports.open_message = async(req,res,next) => {
     const messageId = req.params.id
     try{
-        const messageFound = await Messages.findById(messageId).populate("author recipient").exec()
+        const messageFound = await Messages.findById(messageId).populate("author recipient body.author").exec()
         if(!messageFound){
             res.status(400).json({message: "Message Does not exist"})
         }

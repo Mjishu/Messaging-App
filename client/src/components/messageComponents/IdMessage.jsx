@@ -1,6 +1,7 @@
 import React from "react"
 import Navbar from "../generalComponents/Navbar"
 import styles from "../../styles/messageStyles/IdMessage.module.css"
+import MessageDelete from "./MessageDelete"
 
 function IdMessage(){
     const [messageData, setMessageData] = React.useState({})
@@ -10,6 +11,10 @@ function IdMessage(){
         message: "",
         author: null,
         timestamp: Date.now()
+    })
+    const [showItems,setShowItems] = React.useState({
+        messageId: null,
+        deleteBox:false, 
     })
 
     const url = window.location.href;
@@ -33,6 +38,8 @@ function IdMessage(){
             })
             .catch(error => console.error(`error fetching user data: ${error}`))
     },[messageId])
+
+    React.useEffect(()=> {console.log(messageData)},[messageData])
 
     if (loading){
         return <h2>Loading.. </h2>
@@ -64,14 +71,21 @@ function IdMessage(){
         .catch(err => console.error(`error sending message ${err}`))
     }
 
-    const messageBodyMapped = messageData?.body.map(message => { //need to populate body.author
+    const messageBodyMapped = messageData?.body?.map(message => { //need to populate body.author
+
         return (
             <div key={message._id}>
                 <p >{message.message} </p>
-                <p>{message.author} </p> 
+                <p>{message.author?.username} </p>
+                <p>{message.timestamp}</p>
             </div>
         )
     })
+    
+    function handleBackdropClick(e){
+        if(e.target.closest('.modalDialog')) return;
+        setShowItems(prevItems=>({...prevItems, showUsers:false, deleteBox:false}));
+    }
 
     return (
         <div className={styles.content}>
@@ -83,6 +97,8 @@ function IdMessage(){
         <input type="message" name="message" placeholder="message..." value={textValue.message} onChange={handleChange}/>
         <button type="submit" name="submit">Send</button>
         </form>
+        <button onClick={() => setShowItems(prevItems=>({...prevItems,deleteBox:true, messageId:messageData._id}))}>Delete</button>
+        <MessageDelete showItems={showItems} setShowItems={setShowItems} handleBackdropClick={handleBackdropClick} Idmessage={true}/>
         </div>
         </div>
     )

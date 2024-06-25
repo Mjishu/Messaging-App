@@ -1,6 +1,8 @@
 import styles from "../../styles/messageStyles/Messages.module.css"
+import {useNavigate} from "react-router-dom"
 
 function MessageDelete(props){
+    const navigate = useNavigate()
     function deleteMessage(id){  
         const fetchParams = {
             method : "DELETE",
@@ -9,7 +11,7 @@ function MessageDelete(props){
 
         fetch(`/api/messages/delete/${id}`, fetchParams)
         .then(res => res.json())
-        .then(data => data.message === "success" && window.location.reload() )
+        .then(data => data.message === "success" && (props.Idmessage ? navigate("/message") : window.location.reload() ))
         .catch(err=> console.error(`there was an error trying to delete your message: ${err}`))
 
         props.setShowItems(prevItems=>({...prevItems,deleteBox:false, messageId:null}))

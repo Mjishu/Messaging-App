@@ -42,6 +42,7 @@ function handleClick(){
       {currentUser && currentUser.message !== "none" ?(
           <button onClick={handleClick} className={styles.links}> Sign Out</button>
       ) : null}
+      <button onClick={() => navigate(`/user/${currentUser.id}`)}>Profile</button>
       </div>
     </div>
   )
