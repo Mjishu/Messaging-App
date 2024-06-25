@@ -3,6 +3,7 @@ import {useNavigate} from "react-router-dom"
 import styles from "../../styles/messageStyles/Messages.module.css"
 import Navbar from "../generalComponents/Navbar"
 import FindUsers from "../userComponents/FindUsers"
+import MessageDelete from "./MessageDelete"
 
 function Messages(){
     const [allUserMessages, setAllUserMessages] = React.useState([])
@@ -12,11 +13,11 @@ function Messages(){
     const [showItems,setShowItems] = React.useState({
         showUsers: false,
         deleteBox: false,
+        messageId: null,
     })
     const [allMessages,setAllMessages] = React.useState()
     const navigate = useNavigate()
 
-    // I think that it should get userId and then send that id to api/messages/whatever and have that fetch messages
     React.useEffect(() => {
         fetch("/api/user/current")
             .then(res => res.json())
@@ -52,7 +53,7 @@ function Messages(){
         let messageExists = false;
         let postId;
 
-        for(const message of allMessages){ //Creates message even if one exists with both users?
+        for(const message of allMessages){ 
             if(message.author._id === id && message.recipient._id === currentUser.id){
                 messageExists = true
                 console.log("message exists")
@@ -70,18 +71,15 @@ function Messages(){
             fetch("/api/messages/create", {method:'POST', headers:{"Content-Type":"application/json"}, body:JSON.stringify({id:id})})
             .then(res => res.json())
             .then(data => data.message === "Success" && navigate(`/message/${data.id}`))
-            //.catch(error => console.error(`error creating message ${error}`))
+            .catch(error => console.error(`error creating message ${error}`))
         }
     }
 
     function handleBackdropClick(e){
         if(e.target.closest('.modalDialog')) return;
-        setShowItems(prevItems=>({...prevItems, showUsers:false}));
+        setShowItems(prevItems=>({...prevItems, showUsers:false, deleteBox:false}));
     }
 
-    function deleteMessage(id){ //Make a custom dialog box that says are you sure you want to delete?
-        console.log(id) 
-    }
 
     // Mapping functions //    
 
@@ -92,7 +90,7 @@ function Messages(){
                 <h3>Author: {message.author.username}</h3>
                 <h4>Recipient: {message.recipient.username} </h4>
                 </div>
-                <button onClick={() => deleteMessage(message._id)}>Del</button>
+                <button onClick={() => setShowItems(prevItems=>({...prevItems,deleteBox:true, messageId:message._id}))}>Del</button>
             </div>
         )
     })
@@ -125,13 +123,7 @@ function Messages(){
                     <button onClick={() => setShowItems(prevItems=>({...prevItems,showUsers:false}))}>Close</button>
                 </div>
             </div>)}
-        {showItems.deleteBox && ( //idk what to do with this my brain is tired
-            <div>
-                <h3> Are you sure you want to delete this </h3>
-                <button onClick={() => setShowItems(prevItems=>({...prevItems,deleteBox:false}))}>Cancel</button>
-                <button onClick={() => deleteMessage("meow")}>Delete</button>
-            </div>
-        )}
+        <MessageDelete showItems={showItems} setShowItems={setShowItems} handleBackdropClick={handleBackdropClick}/>
         </div>
     )
 }

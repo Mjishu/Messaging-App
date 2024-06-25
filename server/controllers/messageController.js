@@ -39,7 +39,7 @@ exports.message_create = asyncHandler(async(req,res,next)=>{
 exports.message_delete = asyncHandler(async(req,res,next)=>{
     try{
         await Messages.findByIdAndDelete(req.params.id)
-        res.json({message:"Message deleted successfully"})
+        res.json({message:"success"})
     }catch(error){
         res.status(500).json({message:`error deleting message: ${error}`})
     }

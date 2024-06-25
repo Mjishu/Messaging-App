@@ -15,6 +15,6 @@ router.get("/:id", messageController.open_message)
 
 router.put("/:id/update", messageController.message_update);
 
-router.delete("/:id/delete", messageController.message_delete);
+router.delete("/delete/:id", messageController.message_delete);
 
 module.exports = router;
