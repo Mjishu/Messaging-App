@@ -9,7 +9,9 @@ function Profile() {
     const [editedData,setEditedData] = React.useState({ //make sure data is what it is on backend
         username: "",
         email: "",
-        instagram:  ""
+        instagram:'',
+        facebook:"",
+        twitter:""
     })
 
     //?--------------------------------- Get Id 
@@ -19,7 +21,7 @@ function Profile() {
 
     //* API Calls
 
-    React.useState(()=>{
+    React.useEffect(()=>{
         fetch(`/api/user/find/${id}`)
         .then(res=>res.json())
         .then(data => {console.log(data),setUserData(data)})
@@ -27,11 +29,15 @@ function Profile() {
         .finally(() => setLoading(false))
     },[id])
 
-    React.useState(()=>{setEditedData({
+    React.useEffect(()=>{setEditedData({
         username:userData.username, 
-        email:userData.email, 
-        instagram: userData?.aboutUser?.socialMedia?.instagram || ""
+        email:userData.email,    
+        instagram: userData.instagram || "",
+        facebook: userData.facebook || "",
+        twitter: userData.twitter || ""
     })},[userData])
+
+    
 
 
     function handleSubmit(e){
@@ -42,6 +48,7 @@ function Profile() {
     function handleChange(e){
         const {name,value} = e.target;
         setEditedData(prevData => ({
+            ...prevData,
             [name]: value
         }))
     }
@@ -56,8 +63,14 @@ function Profile() {
                 <label htmlFor="email">Email</label>
                 <input name = "email"onChange={handleChange} value={editedData.email}/>
                 <h4>Social Media </h4>
-                <label htmlFor="instagram">Instagram</label>
-                <input name="instagram" onChange={handleChange} value={editedData.instagram}/>
+                <div className={styles.socialMediaInputHolder}>
+                    <label htmlFor="instagram">Instagram</label>
+                    <input name="instagram" onChange={handleChange} value={editedData.instagram}/>
+                    <label htmlFor="facebook">Facebook</label>
+                    <input name="facebook" onChange={handleChange} value={editedData.facebook}/>
+                    <label htmlFor="twitter">Twitter</label>
+                    <input name="twitter" onChange={handleChange} value={editedData.twitter}/>
+                </div>
                 <button onClick={()=>setEditing(false)}>Close</button>
                 <button >Submit</button>
             </form>
