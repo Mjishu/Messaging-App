@@ -2,7 +2,7 @@ import React from "react"
 import Navbar from "../generalComponents/Navbar"
 import styles from "../../styles/messageStyles/IdMessage.module.css"
 import MessageDelete from "./MessageDelete"
-import {format} from "date-fns"
+import {format, isThisHour} from "date-fns"
 
 function IdMessage(){
     const [messageData, setMessageData] = React.useState({})
@@ -73,9 +73,21 @@ function IdMessage(){
     }
 
     const messageBodyMapped = messageData?.body?.map(message => { 
-        //if day === today: show hours ago, else show the day 
-        //if within the hour show mins? idk about this one
-        const formatedTime = format(message.timestamp, "do MMMM")
+        let formatedTime
+        const todaysDate = new Date();
+        const todaysDateSplit = todaysDate.toISOString().split("T")[0];
+        const storedDateSplit = message.timestamp.split("T")[0]
+
+        //Check hour
+        
+        if(todaysDateSplit === storedDateSplit){
+            formatedTime = `${format(message.timestamp, "h aaa")} sent`
+        }
+        else{
+            formatedTime = format(message.timestamp, "do MMMM")
+        }
+
+        //formatedTime = format(message.timestamp, "do MMMM")
         
         return (
             <div key={message._id}>
