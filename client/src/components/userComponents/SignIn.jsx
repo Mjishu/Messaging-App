@@ -43,7 +43,7 @@ function SignIn() {
                 <div className={styles.image}></div>
                 <div className={styles.info}>
                     <h1 className={styles.title}>Website Name</h1>
-                    <form className={styles.sign_in_holder} onSubmit={handleSubmit}>
+                    <form autocomplete="off" className={styles.sign_in_holder} onSubmit={handleSubmit}>
                     <h1 className={styles.signIn}>Sign In</h1>
                     <div className={styles.inputItems}>
                         <div className={styles.inputElement}>

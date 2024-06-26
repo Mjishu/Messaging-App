@@ -22,9 +22,11 @@ function MessageDelete(props){
         {props.showItems.deleteBox && ( 
             <div className={styles.dialogBackdrop} onClick={props.handleBackdropClick}>
             <div className={styles.customDialog}>
-            <h3> Are you sure you want to delete this </h3>
-            <button onClick={() => props.setShowItems(prevItems=>({...prevItems,deleteBox:false}))}>Cancel</button>
-            <button onClick={() => deleteMessage(props.showItems.messageId)}>Delete</button>
+            <h3 className={styles.deleteText}> Are you sure you want to delete this </h3>
+            <div className={styles.deleteInputOptions}>
+            <button className={styles.deleteInput} onClick={() => props.setShowItems(prevItems=>({...prevItems,deleteBox:false}))}>Cancel</button>
+            <button className={styles.deleteInput} onClick={() => deleteMessage(props.showItems.messageId)}>Delete</button>
+            </div>
             </div>
             </div>
         )}

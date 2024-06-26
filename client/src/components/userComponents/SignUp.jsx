@@ -45,7 +45,7 @@ function SignUp() {
             </div>
             <div className={styles.info}>
                    <h1 className={styles.title}>Website name</h1>
-                    <form className={styles.sign_up_holder} onSubmit={handleSubmit}>
+                    <form autocomplete="false" className={styles.sign_up_holder} onSubmit={handleSubmit}>
                         <h1 className={styles.signUp}>Create Account</h1>
                         <div className={styles.inputItems}>
                             <div className={styles.itemInfo}>

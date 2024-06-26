@@ -76,3 +76,21 @@
     border-bottom: 3px solid hsl(var(--dark));
     color: hsl(var(--primary),.85)
 }
+
+.deleteInput{
+    border: 1px solid hsl(var(--primary));
+    color: hsl(var(--dark));
+    background: hsl(var(--off-white));
+    border-radius: 10px;
+    background:transparent;
+}
+
+.deleteInputOptions{
+    display:flex;
+    justify-content: space-around;
+}
+
+.deleteInput:hover{
+    background: hsl(var(--primary));
+    color: hsl(var(--off-white))
+}

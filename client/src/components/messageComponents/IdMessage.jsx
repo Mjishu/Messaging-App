@@ -17,6 +17,7 @@ function IdMessage(){
         messageId: null,
         deleteBox:false, 
     })
+    const chatContainerRef = React.useRef(null);
 
     const url = window.location.href;
     const splitUrl = url.split("/");
@@ -40,20 +41,19 @@ function IdMessage(){
             .catch(error => console.error(`error fetching user data: ${error}`))
     },[messageId])
 
+    React.useEffect(() => { //sets to bottom of messages
+        const chatContainer = chatContainerRef.current;
+        if(chatContainer){
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+    },[messageData])
+
 
     if (loading){
         return <h2>Loading.. </h2>
     }
 
-    /*const messageBodyMapped = messageData?.body?(message => {
-        return (
-            <div className={styles.messageItem} key={message._id}>
-            <p> {message.body} </p>
-            </div>
-        )
-    });*/
-
-        function handleChange(e){
+    function handleChange(e){
             const {name,value} = e.target;
             setTextValue(prevText => ({
                 ...prevText,
@@ -74,27 +74,29 @@ function IdMessage(){
         setTextValue(prevText => ({...prevText, message: ""}))
     }
 
+
     const messageBodyMapped = messageData?.body?.map(message => { 
         let formatedTime
         const todaysDate = new Date();
         const todaysDateSplit = todaysDate.toISOString().split("T")[0];
         const storedDateSplit = message.timestamp.split("T")[0]
+        let isCurrentUser
 
         //Check hour
-        
         if(todaysDateSplit === storedDateSplit){
             formatedTime = `${format(message.timestamp, "h aaa")} sent`
         }
         else{
             formatedTime = format(message.timestamp, "do MMMM")
         }
-
-        //formatedTime = format(message.timestamp, "do MMMM")
+        if (message.author.username === loggedInUser.username){
+            isCurrentUser = true;
+        }
         
         return (
-            <div key={message._id} className={styles.messageHolder}>
+            <div key={message._id} className={isCurrentUser ?`${styles.messageHolder} ${styles.isCurrentUser}` :styles.messageHolder}>
                 <p className={styles.username}>{message.author?.username} </p>
-                <p className={styles.message}>{message.message} </p>
+                <h6 className={styles.message}>{message.message} </h6>
                 <p className={styles.time}>{formatedTime}</p>
             </div>
         )
@@ -104,20 +106,21 @@ function IdMessage(){
         if(e.target.closest('.modalDialog')) return;
         setShowItems(prevItems=>({...prevItems, showUsers:false, deleteBox:false}));
     }
-// if message.author is current.user put message on right side, else message on left side
     return (
         <div className={styles.body}>
         <Navbar/>
         <div className={styles.messageBody}>
         <h1>Your Message with {messageData?.recipient?.username}</h1>
-        <div className={styles.messageParts}>
+        <div className={styles.messageParts} ref={chatContainerRef}>
             {messageBodyMapped}
         </div>
-        <form className={styles.inputOptions} onSubmit={handleSubmit}>
-        <input type="message" name="message" placeholder="message..." value={textValue.message} onChange={handleChange}/>
-        <button type="submit" name="submit">Send</button>
+        <div className={styles.messageInputContent}>
+        <form autocomplete="off" className={styles.inputOptions} onSubmit={handleSubmit}>
+        <input type="message" className={styles.messageInput} name="message" placeholder="message..." value={textValue.message} onChange={handleChange}/>
+        <button type="submit" className={styles.messageSubmit} name="submit">Send</button>
         </form>
         <button className={styles.deleteButton} onClick={() => setShowItems(prevItems=>({...prevItems,deleteBox:true, messageId:messageData._id}))}>Delete</button>
+        </div>
         <MessageDelete showItems={showItems} setShowItems={setShowItems} handleBackdropClick={handleBackdropClick} Idmessage={true}/>
         </div>
         </div>

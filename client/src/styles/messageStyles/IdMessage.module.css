@@ -20,11 +20,11 @@
     display:flex;
     flex-direction:column;
     border-radius: 10px;
-    box-shadow: 0 57px 83px hsla(var(--black),0),
-    0 40px 54px hsla(var(--black),0.01),
-    0 32px 44px hsla(var(--black),0.02),
-    0 28px 35px hsla(var(--black), 0.05),
-    0 22px 22px hsla(var(--black),0.09);
+    box-shadow: 0 48px 83px hsla(var(--black),0),
+    0 36px 54px hsla(var(--black),0.01),
+    0 25px 44px hsla(var(--black),0.02),
+    0 14px 35px hsla(var(--black), 0.05),
+    0 5px 22px hsla(var(--black),0.09);
     gap: 2rem;
     padding: 2.5rem;
 }
@@ -48,6 +48,7 @@
 .message{ 
     font-size: 1.25rem;
     width: 20rem;
+    font-weight: 450;
 }
 
 .username{
@@ -56,5 +57,59 @@
 }
 
 .deleteButton{
+    border: 1px solid hsl(var(--primary));
+    color: hsl(var(--dark));
+    background: hsl(var(--off-white));
+    border-radius: 10px;
+    width: 75px;
+}
+.deleteButton:hover{
+    background: hsl(var(--dark));
+    color:hsl(var(--off-white));
+}
 
+.isCurrentUser{
+    align-items: flex-end;
+    align-text: flex-end;
+}
+
+.isCurrentUser h6{
+    text-align: end;
+}
+
+.messageInput{
+    border:none;
+    border-radius: 10px;
+    width:25rem;
+    height:2rem;
+    box-shadow: 0 57px 83px hsla(var(--black),0),
+    0 40px 54px hsla(var(--black),0.01),
+    0 32px 44px hsla(var(--black),0.02),
+    0 28px 35px hsla(var(--black), 0.05),
+    0 5px 22px hsla(var(--black),0.09);
+}
+.messageSubmit{
+    border: 1px solid hsl(var(--primary));
+    border-radius: 10px;
+    width:75px;
+    background: hsl(var(--off-white));
+    color: hsl(var(--dark))
+}
+.messageSubmit:hover{
+    color: hsl(var(--off-white));
+    background:hsl(var(--primary));
+}
+
+.messageInputContent{
+    display: flex;
+    flex-direction:column;
+    gap: 2rem;
+    align-items:center;
+    padding-top:1rem;
+}
+
+.inputOptions{
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
 }
