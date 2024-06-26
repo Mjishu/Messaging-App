@@ -96,6 +96,8 @@ function Messages(){
             otherUserColor = message.author.color
         }
 
+        const recentMessage = message.body[message.body.length -1].message
+
         return (
             <div key={message._id}>
             {/*<div  onClick={() => handleClick(message._id)} className={styles.messagesHolder}>
@@ -106,7 +108,7 @@ function Messages(){
             */} 
             <MessageHolder  
                 username={otherUser}
-                overview={"we put some lorem ipsum here and see how it goes:3"} 
+                overview={recentMessage} 
                 userColor={otherUserColor}
                 time={message.updatedAt}
                 setShowItems={setShowItems}

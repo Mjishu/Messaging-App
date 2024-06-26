@@ -40,7 +40,6 @@ function IdMessage(){
             .catch(error => console.error(`error fetching user data: ${error}`))
     },[messageId])
 
-    React.useEffect(()=> {console.log(messageData)},[messageData])
 
     if (loading){
         return <h2>Loading.. </h2>
@@ -62,6 +61,7 @@ function IdMessage(){
             }))
         }
 
+
     function handleSubmit(e){ //only works for author?
         e.preventDefault()
         const fetchParams= {method:'POST', headers:{'Content-Type': "application/json"}, body: JSON.stringify(textValue)}
@@ -70,6 +70,8 @@ function IdMessage(){
         .then(res => res.json())
         .then(data => console.log(data))
         .catch(err => console.error(`error sending message ${err}`))
+        
+        setTextValue(prevText => ({...prevText, message: ""}))
     }
 
     const messageBodyMapped = messageData?.body?.map(message => { 
@@ -90,10 +92,10 @@ function IdMessage(){
         //formatedTime = format(message.timestamp, "do MMMM")
         
         return (
-            <div key={message._id}>
-                <p >{message.message} </p>
-                <p>{message.author?.username} </p>
-                <p>{formatedTime}</p>
+            <div key={message._id} className={styles.messageHolder}>
+                <p className={styles.username}>{message.author?.username} </p>
+                <p className={styles.message}>{message.message} </p>
+                <p className={styles.time}>{formatedTime}</p>
             </div>
         )
     })
@@ -102,18 +104,20 @@ function IdMessage(){
         if(e.target.closest('.modalDialog')) return;
         setShowItems(prevItems=>({...prevItems, showUsers:false, deleteBox:false}));
     }
-
+// if message.author is current.user put message on right side, else message on left side
     return (
         <div className={styles.body}>
         <Navbar/>
         <div className={styles.messageBody}>
         <h1>Your Message with {messageData?.recipient?.username}</h1>
-        {messageBodyMapped}
+        <div className={styles.messageParts}>
+            {messageBodyMapped}
+        </div>
         <form className={styles.inputOptions} onSubmit={handleSubmit}>
         <input type="message" name="message" placeholder="message..." value={textValue.message} onChange={handleChange}/>
         <button type="submit" name="submit">Send</button>
         </form>
-        <button onClick={() => setShowItems(prevItems=>({...prevItems,deleteBox:true, messageId:messageData._id}))}>Delete</button>
+        <button className={styles.deleteButton} onClick={() => setShowItems(prevItems=>({...prevItems,deleteBox:true, messageId:messageData._id}))}>Delete</button>
         <MessageDelete showItems={showItems} setShowItems={setShowItems} handleBackdropClick={handleBackdropClick} Idmessage={true}/>
         </div>
         </div>

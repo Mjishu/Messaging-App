@@ -3,7 +3,8 @@
     color: hsl(var(--black));
     background-color: #fdfdfd;
     border-radius:10px;
-    max-width: 37rem;
+    width: 37rem;
+    min-width:25rem;
     height:6.25rem;
     display:flex;
     flex-direction:row;
@@ -18,11 +19,15 @@
 
 .username{
     font-size:1.5rem;
+    font-weight:500;
 }
 
 .overview{
     font-size: 1.125rem;
     width: 20rem;
+    color: hsla(var(--black),.75);
+    position:relative;
+    top: 17px;
 }
 
 .userColor{
@@ -35,5 +40,7 @@
 .time{
     font-weight:300;
     font-size:1.125rem;
-    color: hsla(var(--black),.5)
+    color: hsla(var(--black),.25);
+    position:relative;
+    top: -15px;
 }

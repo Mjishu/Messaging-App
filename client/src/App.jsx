@@ -14,7 +14,6 @@ function App() {
     .catch(error => console.error(error))
   },[])
 
-    React.useEffect(()=>{console.log(currentUser)},[currentUser])
 
 function handleClick(){
     fetch("/api/user/logout")

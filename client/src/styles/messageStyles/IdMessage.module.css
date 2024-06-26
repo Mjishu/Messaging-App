@@ -9,4 +9,52 @@
     height:100vh;
     width:100%;
     align-items: center;
+    max-height:750px;
+    overflow-y: auto;
+    
+}
+
+.messageParts{
+    width:50rem;
+    overflow-y: auto;
+    display:flex;
+    flex-direction:column;
+    border-radius: 10px;
+    box-shadow: 0 57px 83px hsla(var(--black),0),
+    0 40px 54px hsla(var(--black),0.01),
+    0 32px 44px hsla(var(--black),0.02),
+    0 28px 35px hsla(var(--black), 0.05),
+    0 22px 22px hsla(var(--black),0.09);
+    gap: 2rem;
+    padding: 2.5rem;
+}
+
+.messageHolder{
+    display:flex;
+    flex-direction:column;
+    align-items: flex-start;
+    margin: 0;
+    padding: 0;
+}
+.messageHolder *{
+    margin: 0;
+    padding:0;
+}
+
+.time{
+    font-size:1rem;
+    color: hsla(var(--black),0.5)
+}
+.message{ 
+    font-size: 1.25rem;
+    width: 20rem;
+}
+
+.username{
+    font-size: 1rem;
+    color: hsla(var(--black),0.25)
+}
+
+.deleteButton{
+
 }
