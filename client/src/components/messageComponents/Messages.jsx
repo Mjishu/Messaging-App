@@ -4,6 +4,7 @@ import styles from "../../styles/messageStyles/Messages.module.css"
 import Navbar from "../generalComponents/Navbar"
 import FindUsers from "../userComponents/FindUsers"
 import MessageDelete from "./MessageDelete"
+import MessageHolder from "./MessageHolder"
 
 function Messages(){
     const [allUserMessages, setAllUserMessages] = React.useState([])
@@ -83,14 +84,32 @@ function Messages(){
 
     // Mapping functions //    
 
-    const messagesMapped =  allUserMessages?.map(message => {
+    const messagesMapped =  allUserMessages?.map(message => { //call messageHolder here
+        let otherUser
+        if(message.author.username === currentUser.username){
+            otherUser = message.recipient.username
+        }
+        else if(message.recipient.username === currentUser.username){
+            otherUser = message.author.username
+        }
+
         return (
             <div key={message._id}>
-                <div  onClick={() => handleClick(message._id)} className={styles.messagesHolder}>
+            {/*<div  onClick={() => handleClick(message._id)} className={styles.messagesHolder}>
                 <h3>Author: {message.author.username}</h3>
                 <h4>Recipient: {message.recipient.username} </h4>
                 </div>
                 <button onClick={() => setShowItems(prevItems=>({...prevItems,deleteBox:true, messageId:message._id}))}>Del</button>
+            */} 
+            <MessageHolder  
+                username={otherUser}
+                overview={"we put some lorem ipsum here and see how it goes:3"} 
+                userColor={"#acb24a"}
+                time={message.updatedAt}
+                setShowItems={setShowItems}
+                handleClick={handleClick}
+                messageId = {message._id}
+            />
             </div>
         )
     })
@@ -112,8 +131,10 @@ function Messages(){
         <div className={styles.page}>
         <Navbar />
         <div className={styles.content}>
-        <h1>Messages</h1>
-        {messagesMapped}
+            <h1>Messages</h1>
+            <div className={styles.holderOfMessages}>
+            {messagesMapped}
+            </div>
         </div> 
         <button className={styles.searchButton} onClick={() => setShowItems(prevItems => ({...prevItems,showUsers:true }))}><img src="/icons/search.svg" alt="search icon" className={styles.searchButtonImg}/></button>
         {showItems.showUsers && (
