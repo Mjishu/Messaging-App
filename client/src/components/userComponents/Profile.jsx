@@ -88,7 +88,7 @@ function Profile() {
     }
 
     return (
-        <div className={styles.profileBody}>
+        <div className={styles.profileBodys}>
             <Navbar/>
             <div className={styles.content}>
                 <h1>Welcome {userData.username}</h1>

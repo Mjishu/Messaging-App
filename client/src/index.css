@@ -6,9 +6,15 @@
     --black: 213,8%,14%;
 }
 
+@font-face{
+    font-family: "Kantumruy";
+    src: url("../public/fonts/KantumruyPro-VariableFont_wght.ttf") format("truetype")
+}
 
 body{
     margin: 0;
     padding: 0;
     background-color: hsl(var(--off-white));
+    color: hsl(var(--black));
+    font-family: "Kantumruy", sans-serif
 }

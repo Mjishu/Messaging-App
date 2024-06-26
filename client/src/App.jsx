@@ -24,7 +24,7 @@ function handleClick(){
 }
 
   return (
-    <div className={styles.homeBody}>
+    <div className={styles.homeBodys}>
       <Navbar/>
       <div className={styles.appItems}>
         <h1>App</h1>
@@ -42,7 +42,6 @@ function handleClick(){
       {currentUser && currentUser.message !== "none" ?(
           <button onClick={handleClick} className={styles.links}> Sign Out</button>
       ) : null}
-      <button onClick={() => navigate(`/user/${currentUser.id}`)}>Profile</button>
       </div>
     </div>
   )

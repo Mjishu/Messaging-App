@@ -33,7 +33,7 @@ function Messages(){
         fetch("/api/messages/all")
         .then(res => res.json())
         .then(data => setAllMessages(data))
-        .catch(err => console.error(`error fetching all messages: ${err}`))
+        .catch(err => console.error(`error f8763a0etching all messages: ${err}`))
     },[])
 
     React.useEffect(()=> {
@@ -86,11 +86,14 @@ function Messages(){
 
     const messagesMapped =  allUserMessages?.map(message => { //call messageHolder here
         let otherUser
+        let otherUserColor
         if(message.author.username === currentUser.username){
             otherUser = message.recipient.username
+            otherUserColor = message.recipient.color
         }
         else if(message.recipient.username === currentUser.username){
             otherUser = message.author.username
+            otherUserColor = message.author.color
         }
 
         return (
@@ -104,7 +107,7 @@ function Messages(){
             <MessageHolder  
                 username={otherUser}
                 overview={"we put some lorem ipsum here and see how it goes:3"} 
-                userColor={"#acb24a"}
+                userColor={otherUserColor}
                 time={message.updatedAt}
                 setShowItems={setShowItems}
                 handleClick={handleClick}
@@ -128,7 +131,7 @@ function Messages(){
     }
 
     return(
-        <div className={styles.page}>
+        <div className={styles.body}>
         <Navbar />
         <div className={styles.content}>
             <h1>Messages</h1>
@@ -136,12 +139,13 @@ function Messages(){
             {messagesMapped}
             </div>
         </div> 
-        <button className={styles.searchButton} onClick={() => setShowItems(prevItems => ({...prevItems,showUsers:true }))}><img src="/icons/search.svg" alt="search icon" className={styles.searchButtonImg}/></button>
+        <button className={styles.searchButton} onClick={() => setShowItems(prevItems => ({...prevItems,showUsers:true }))}>
+        <img src="/icons/search.svg" alt="search icon" className={styles.searchButtonImg}/></button>
         {showItems.showUsers && (
             <div className={styles.dialogBackdrop} onClick={handleBackdropClick}>
                 <div className={styles.customDialog}>
                     {mapAllUsers}
-                    <button onClick={() => setShowItems(prevItems=>({...prevItems,showUsers:false}))}>Close</button>
+                    <button className={styles.closeUsers} onClick={() => setShowItems(prevItems=>({...prevItems,showUsers:false}))}>Close</button>
                 </div>
             </div>)}
         <MessageDelete showItems={showItems} setShowItems={setShowItems} handleBackdropClick={handleBackdropClick}/>

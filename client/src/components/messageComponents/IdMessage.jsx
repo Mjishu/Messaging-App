@@ -2,6 +2,7 @@ import React from "react"
 import Navbar from "../generalComponents/Navbar"
 import styles from "../../styles/messageStyles/IdMessage.module.css"
 import MessageDelete from "./MessageDelete"
+import {format} from "date-fns"
 
 function IdMessage(){
     const [messageData, setMessageData] = React.useState({})
@@ -71,13 +72,16 @@ function IdMessage(){
         .catch(err => console.error(`error sending message ${err}`))
     }
 
-    const messageBodyMapped = messageData?.body?.map(message => { //need to populate body.author
-
+    const messageBodyMapped = messageData?.body?.map(message => { 
+        //if day === today: show hours ago, else show the day 
+        //if within the hour show mins? idk about this one
+        const formatedTime = format(message.timestamp, "do MMMM")
+        
         return (
             <div key={message._id}>
                 <p >{message.message} </p>
                 <p>{message.author?.username} </p>
-                <p>{message.timestamp}</p>
+                <p>{formatedTime}</p>
             </div>
         )
     })
@@ -88,7 +92,7 @@ function IdMessage(){
     }
 
     return (
-        <div className={styles.content}>
+        <div className={styles.body}>
         <Navbar/>
         <div className={styles.messageBody}>
         <h1>Your Message with {messageData?.recipient?.username}</h1>

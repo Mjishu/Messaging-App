@@ -16,6 +16,7 @@ const UserSchema = new Schema({
             about:String
         }
     ],
+    color: {type: String, default: "#6aa8ce"}
     }, {timestamps:true})
 
 

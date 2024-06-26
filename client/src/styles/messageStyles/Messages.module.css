@@ -12,14 +12,18 @@
 }
 
 .searchButtonImg{
-
+    width: 3rem;
+    height:3rem;
 }
-
+.searchButtonImg:hover{
+    width: 3.25rem;
+    height:3.25rem;
+}
 .searchButton{
-    border: 1px solid black;
+    align-items:center;
+    border: none;
     background: transparent;
     height:fit-content;
-    z-index:1;
 }
 
 .customDialog {
@@ -48,9 +52,27 @@
 }
 
 .holderOfMessages{
+    margin-top:2rem;
     display:flex;
     flex-direction: column;
     gap: 4rem;
     align-content: center;
     justify-content:center;
+}
+
+.closeUsers{
+    background: transparent;
+    border: 1px solid hsl(var(--dark));
+    border-radius: 10px;
+    width:5rem;
+}
+
+.mappedUser{
+    border-bottom: 3px solid hsl(var(--primary));
+    border-radius: 3px;
+    height: fit-content;
+}
+.mappedUser:hover{
+    border-bottom: 3px solid hsl(var(--dark));
+    color: hsl(var(--primary),.85)
 }
