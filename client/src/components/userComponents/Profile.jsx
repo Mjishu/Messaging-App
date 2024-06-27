@@ -17,6 +17,7 @@ function Profile() {
         profession: "",
         about: ""
     })
+    const [hover,setHover] = React.useState(false)
 
     //?--------------------------------- Get Id 
     const idUrl = window.location.href;
@@ -41,9 +42,9 @@ function Profile() {
     React.useEffect(()=>{setEditedData({
         username:userData.username, 
         email:userData.email,    
-        instagram: userData?.aboutUser?.connect.instagram || "",
-        facebook: userData?.aboutUser?.connect.facebook || "",
-        twitter: userData?.aboutUser?.connect.twitter || "",
+        instagram: userData?.aboutUser?.connect?.instagram || "",
+        facebook: userData?.aboutUser?.connect?.facebook || "",
+        twitter: userData?.aboutUser?.connect?.twitter || "",
         color: userData.color,
         profession: userData?.aboutUser?.profession || "",
         about: userData?.aboutUser?.about || "",
@@ -77,7 +78,11 @@ function Profile() {
         }))
     }
 
+    function mouseEnter(){setHover(true)};
+    function mouseExit(){setHover(false)}
+
     function editingData(){ //The values dont seem to be taking the editedData.value ?
+
             return(
                 <div className={styles.dialogBackdrop} >
                 <div className={styles.editBoard}>
@@ -96,16 +101,18 @@ function Profile() {
                 <input name="twitter" onChange={handleChange} value={editedData.twitter}/>
                 </div>
                 <h4>About </h4>
-                <div className={styles.aboutUser}>
+                <div className={styles.aboutInputUser}>
                 <label htmlFor="color">Color</label>
-                <input type="color" name="color" onChange={handleChange} value={editedData.color} />
+                <input type="color" name="color" onChange={handleChange} value={editedData.color} className={styles.colorInput}/>
                 <label htmlFor="profession">Profession</label>
                 <input type="text" name="profession" onChange={handleChange} value={editedData.profession}/>
                 <label htmlFor="about"> About </label>
-                <input type="text" name="about" onChange={handleChange} value = {editedData.about}/>
+                <textarea  className={styles.aboutInput} name="about" onChange={handleChange} value = {editedData.about}/>
                 </div>
-                <button onClick={()=>setEditing(false)}>Close</button>
+                <div className={styles.editButtons}>
+                <button onClick={()=>setEditing(false)} >Close</button>
                 <button type="submit">Submit</button>
+                </div>
                 </form>
                 </div>
                 </div>
@@ -119,6 +126,8 @@ function Profile() {
     if(loading){
         return <p>Loading...</p>
     }
+
+    const styling = {boxShadow: hover ? `0 5px 5px ${userData.color} `: 'none', }
 
     return (
         <div className={styles.profileBodys}>
@@ -140,7 +149,7 @@ function Profile() {
             <h4>Connect</h4>
             <div className={styles.logoHolder}><img src="/icons/instagramlogo.png" alt="instagram" /> <img src="/icons/facebooklogo.png" alt="facebook"/> <img src="/icons/twitterlogo.png" alt="twitter"/></div>
         </div>
-        {currentUser.id === userData._id && <button className={styles.editButton} onClick={() => setEditing(true)}>Edit Profile</button>}
+        {currentUser.id === userData._id && <button onMouseEnter={mouseEnter} onMouseLeave={mouseExit} style={styling} className={styles.editButton} onClick={() => setEditing(true)}>Edit Profile</button>}
         {editing && editingData()}
         </div>
         </div>
