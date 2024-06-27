@@ -49,11 +49,20 @@ exports.user_update = asyncHandler(async(req,res,next) => {
         const userInfo = {
             username: req.body.username,
             email: req.body.email,
-            password: hashedPassword,
             //todo Where to put for aboutUser and contacts?
+            aboutUser: {
+                connect:{ //Not storing data correctly
+                    instagram: req.body.instagram,
+                    facebook: req.body.facebook,
+                    twitter: req.body.twitter
+                },
+                profession: req.body.profession,
+                about: req.body.about
+            },
+            color: req.body.color
         }
         const updatedUser = await User.findByIdAndUpdate(req.params.id,userInfo)
-        console.log(updatedUser);
+        console.log(userInfo);
         res.json({message:"User was updated successfully"});
     }catch(error){res.status(500).json({message: `Error updating user ${error}`})}
 })

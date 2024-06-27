@@ -4,6 +4,7 @@ import styles from "../../styles/userStyles/profile.module.css"
 
 function Profile() {
     const [userData, setUserData] = React.useState([]);
+    const [currentUser, setCurrentUser] = React.useState([])
     const [loading,setLoading] = React.useState(true)
     const [editing, setEditing] = React.useState(false)
     const [editedData,setEditedData] = React.useState({ //make sure data is what it is on backend
@@ -11,7 +12,10 @@ function Profile() {
         email: "",
         instagram:'',
         facebook:"",
-        twitter:""
+        twitter:"",
+        color:"",
+        profession: "",
+        about: ""
     })
 
     //?--------------------------------- Get Id 
@@ -23,26 +27,46 @@ function Profile() {
 
     React.useEffect(()=>{
         fetch(`/api/user/find/${id}`)
-        .then(res=>res.json())
-        .then(data => {console.log(data),setUserData(data)})
-        .catch(err => console.err(err))
-        .finally(() => setLoading(false))
+            .then(res=>res.json())
+            .then(data => {console.log(data),setUserData(data)})
+            .catch(err => console.err(err))
+            .finally(() => setLoading(false))
+
+        fetch("/api/user/current")
+            .then(res => res.json())
+            .then(data => setCurrentUser(data))
+            .catch(err => console.error(`there was an error fetching user ${err}`))
     },[id])
 
     React.useEffect(()=>{setEditedData({
         username:userData.username, 
         email:userData.email,    
-        instagram: userData.instagram || "",
-        facebook: userData.facebook || "",
-        twitter: userData.twitter || ""
+        instagram: userData?.aboutUser?.connect.instagram || "",
+        facebook: userData?.aboutUser?.connect.facebook || "",
+        twitter: userData?.aboutUser?.connect.twitter || "",
+        color: userData.color,
+        profession: userData?.aboutUser?.profession || "",
+        about: userData?.aboutUser?.about || "",
     })},[userData])
 
-    
+    React.useEffect(() => {console.log(`Current user is${currentUser.id} profile page is of ${userData._id}`)},[userData])
 
 
     function handleSubmit(e){
         e.preventDefault()
-        console.log(editedData)
+        console.log(typeof editedData)
+        const fetchParams= {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(editedData)
+        }
+
+        fetch(`/api/user/find/${userData._id}/update`, fetchParams)
+            .then(res => res.json())
+            .then(data => console.log(data))
+            .catch(err => console.error(`error updating user ${err}`))
+
+        setEditing(false);
     }
 
     function handleChange(e){
@@ -54,29 +78,38 @@ function Profile() {
     }
 
     function editingData(){ //The values dont seem to be taking the editedData.value ?
-        return(
-            <div className={styles.dialogBackdrop} >
-            <div className={styles.editBoard}>
-            <form onSubmit={handleSubmit}>
+            return(
+                <div className={styles.dialogBackdrop} >
+                <div className={styles.editBoard}>
+                <form onSubmit={handleSubmit}>
                 <label htmlFor="username">Username</label>
                 <input name="username" onChange={handleChange} value={editedData.username}/>
                 <label htmlFor="email">Email</label>
                 <input name = "email"onChange={handleChange} value={editedData.email}/>
                 <h4>Social Media </h4>
                 <div className={styles.socialMediaInputHolder}>
-                    <label htmlFor="instagram">Instagram</label>
-                    <input name="instagram" onChange={handleChange} value={editedData.instagram}/>
-                    <label htmlFor="facebook">Facebook</label>
-                    <input name="facebook" onChange={handleChange} value={editedData.facebook}/>
-                    <label htmlFor="twitter">Twitter</label>
-                    <input name="twitter" onChange={handleChange} value={editedData.twitter}/>
+                <label htmlFor="instagram">Instagram</label>
+                <input name="instagram" onChange={handleChange} value={editedData.instagram}/>
+                <label htmlFor="facebook">Facebook</label>
+                <input name="facebook" onChange={handleChange} value={editedData.facebook}/>
+                <label htmlFor="twitter">Twitter</label>
+                <input name="twitter" onChange={handleChange} value={editedData.twitter}/>
+                </div>
+                <h4>About </h4>
+                <div className={styles.aboutUser}>
+                <label htmlFor="color">Color</label>
+                <input type="color" name="color" onChange={handleChange} value={editedData.color} />
+                <label htmlFor="profession">Profession</label>
+                <input type="text" name="profession" onChange={handleChange} value={editedData.profession}/>
+                <label htmlFor="about"> About </label>
+                <input type="text" name="about" onChange={handleChange} value = {editedData.about}/>
                 </div>
                 <button onClick={()=>setEditing(false)}>Close</button>
-                <button >Submit</button>
-            </form>
-            </div>
-            </div>
-        )
+                <button type="submit">Submit</button>
+                </form>
+                </div>
+                </div>
+            )
     }
 
     function handleBackdropClick(e){
@@ -89,15 +122,29 @@ function Profile() {
 
     return (
         <div className={styles.profileBodys}>
-            <Navbar/>
-            <div className={styles.content}>
-                <h1>Welcome {userData.username}</h1>
-                <p>Email: {userData.email} </p>
-                <button onClick={() => setEditing(true)}>Edit Profile</button>
-            {editing && editingData()}
-            </div>
+        <Navbar/>
+        <div className={styles.content}>
+        <div className={styles.mainInfo}>
+        <h2>{userData.username}</h2>
+        <p className={styles.aboutUser}>{userData?.aboutUser?.about} </p>
         </div>
-  )
+        <div className={styles.profession}>
+        <h4> Profession </h4>
+        <p className={styles.aboutUser}>{userData.aboutUser.profession}</p>
+        </div>
+        <div className={styles.location}>
+            <h4> Location </h4>
+            <p className={styles.aboutUser}>{userData?.aboutUser?.location}</p> 
+        </div>
+        <div className={styles.connect}>
+            <h4>Connect</h4>
+            <div className={styles.logoHolder}><img src="/icons/instagramlogo.png" alt="instagram" /> <img src="/icons/facebooklogo.png" alt="facebook"/> <img src="/icons/twitterlogo.png" alt="twitter"/></div>
+        </div>
+        {currentUser.id === userData._id && <button className={styles.editButton} onClick={() => setEditing(true)}>Edit Profile</button>}
+        {editing && editingData()}
+        </div>
+        </div>
+    )
 }
 
 export default Profile
