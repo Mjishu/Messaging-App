@@ -8,7 +8,7 @@
 
 @font-face{
     font-family: "Kantumruy";
-    src: url("../public/fonts/KantumruyPro-VariableFont_wght.ttf") format("truetype")
+    src: url("/fonts/KantumruyPro-VariableFont_wght.ttf") format("truetype")
 }
 
 body{
