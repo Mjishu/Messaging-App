@@ -32,9 +32,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //? Routers and app usage
+const allowedOrigins = [
+    "https://messaging-app-4b6q.onrender.com/",
+]
 
 const corsOptions ={
-    origin:"https://messaging-app-swart.vercel.app",
+    origin:allowedOrigins,
     credentials:true,
     optionSuccessStatus:200
 }

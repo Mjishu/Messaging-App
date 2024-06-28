@@ -8,7 +8,7 @@ const session = require("express-session");
 
 exports.user_create = asyncHandler(async(req,res,next) => { //if username or email alr exists dont create
     console.log("attempting to make new user")
-    console.log(req.body)
+    console.log(req.body) 
     try{
         const queryObject = { $or: [{email:req.body.email}, {username:req.body.username}]}
         const existingUser = await User.findOne(queryObject);

@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom/client'
 import './index.css'
 import {createBrowserRouter, RouterProvider} from "react-router-dom"
 import routes from '../routes.jsx'
+import {disableReactDevTools} from "@fvilers/disable-react-devtools"
+
+if(process.env.NODE_ENV === "production") disableReactDevTools()
 
 const router = createBrowserRouter(routes)
 
