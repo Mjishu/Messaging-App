@@ -38,7 +38,7 @@ const allowedOrigins = [
 ]
 
 const corsOptions ={
-    origin:allowedOrigins,
+    origin:"https://messaging-app-4b6q.onrender.com",
     credentials:true,
     optionSuccessStatus:200
 }
