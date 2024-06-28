@@ -6,12 +6,19 @@ require("dotenv").config();
 const LocalStrategy = require("passport-local").Strategy;
 const session = require("express-session");
 
-exports.user_create = asyncHandler(async(req,res,next) => {
+exports.user_create = asyncHandler(async(req,res,next) => { //if username or email alr exists dont create
     console.log("attempting to make new user")
     console.log(req.body)
     try{
-        const existingUser = await User.findOne({email:req.body.email});
-        if(existingUser){  return res.status(400).json({message: "Email already in use"})}
+        const queryObject = { $or: [{email:req.body.email}, {username:req.body.username}]}
+        const existingUser = await User.findOne(queryObject);
+        if(existingUser){
+            let errorMessage
+            if(existingUser.email === req.body.email){errorMessage = "Email"}
+            else if (existingUser.username === req.body.username){errorMessage= "Username"}
+
+            return res.status(400).json({message: `${errorMessage} already in use`})
+        }
 
         const newUser = new User({
             username: req.body.username,
@@ -68,6 +75,7 @@ exports.user_update = asyncHandler(async(req,res,next) => {
 })
 
 exports.user_delete = asyncHandler(async(req,res,next)=>{
+    if (req.user === undefined){return res.status(401).json({message:"failed"})}
     console.log("deleting User");
     try{
         await User.findByIdAndDelete(req.params.id)
@@ -118,6 +126,7 @@ exports.user_sign_out = async(req,res,next)=>{
 }
 
 exports.signed_in_user = async(req,res,next) => {
+    if (req.user === undefined){return res.status(401).json({message:"failed"})}
     try{
         const currentUser = req.user;
 

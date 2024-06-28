@@ -9,60 +9,65 @@ function App() {
     const [allUsers, setAllUsers] = React.useState({})
     const navigate = useNavigate()
 
-  React.useEffect(()=> {
-    fetch("/api/user/current")
-    .then(res => res.json())
-    .then(data => setCurrentUser(data))
-    .catch(error => console.error(error))
+    React.useEffect(()=> {
+        fetch("/api/user/current")
+            .then(res => res.json())
+            .then(data => setCurrentUser(data))
+            .catch(error => console.error(error))
 
-      fetch('/api/user/all')
-      .then(res => res.json())
-      .then(data => setAllUsers(data))
-      .catch(err => console.error(err))
-  },[])
+        fetch('/api/user/all')
+            .then(res => res.json())
+            .then(data => setAllUsers(data))
+            .catch(err => console.error(err))
+    },[])
 
 
-function handleClick(){
-    fetch("/api/user/logout")
-    .then(res => res.json())
-    .then(data => data.success == true && window.location.reload())
-    .catch(error => console.error(error))
-}
+    function handleClick(){
+        fetch("/api/user/logout")
+            .then(res => res.json())
+            .then(data => data.success === true && window.location.reload())
+            .catch(error => console.error(error))
+    }
 
-function handleUserClick(id){
-    navigate(`/user/${id}`)
-}
+    function handleUserClick(id){
+        navigate(`/user/${id}`)
+    }
 
-const usersMapped = allUsers.length > 0 && allUsers.map(user => {
-    return <AllUsers key={user._id} handleClick={handleUserClick} color={user.color} id={user._id} username={user.username}/>
-})
+    const usersMapped = allUsers.length > 0 && allUsers.map(user => {
+        return <AllUsers key={user._id} handleClick={handleUserClick} color={user.color} id={user._id} username={user.username}/>
+    })
 
-  return (
-    <div className={styles.homeBodys}>
-      <Navbar/>
-      <div className={styles.appItems}>
+    React.useEffect(() => {console.log(currentUser?.message === "failed")},[currentUser])
+
+    function userInteraction(){
+                return (<div className={styles.userLinks}> 
+                    <>
+                    <Link to={"/sign-in"} className={styles.links}>Sign In</Link>
+                    <Link to="/sign-up" className={styles.links}>Sign Up</Link>
+                    </>
+                    </div>)
+    }
+
+    function deleteButton(){
+        return <button onClick={handleClick} className={`${styles.links} ${styles.linkButton}`}> Sign Out</button>
+    }
+
+    return (
+        <div className={styles.homeBodys}>
+        <Navbar/>
+        <div className={styles.appItems}>
         <h1>App</h1>
         <div className={styles.userInfo}>
-            <h1>Welcome: {currentUser && currentUser.username} </h1>
-      </div>
-        <div className={styles.userLinks}> 
-        {currentUser && currentUser.message === "none" ? (
-            <>
-                <Link to={"/sign-in"} className={styles.links}>Sign In</Link>
-                <Link to="/sign-up" className={styles.links}>Sign Up</Link>
-            </>
-        ) : null}
+        <h1>Welcome: {currentUser && currentUser.username} </h1>
         </div>
-      {currentUser && currentUser.message !== "none" ?(
-          <button onClick={handleClick} className={`${styles.links} ${styles.linkButton}`}> Sign Out</button>
-      ) : null}
-      </div>
-      <div className={styles.usersMapped}>
-      <h3> Users </h3>
-      {usersMapped}
-      </div>
-    </div>
-  )
+        {currentUser?.message === "failed" ? userInteraction() : deleteButton()}
+        </div>
+        <div className={styles.usersMapped}>
+        <h3> Users </h3>
+        {usersMapped}
+        </div>
+        </div>
+    )
 }
 
 export default App

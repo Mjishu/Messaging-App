@@ -3,7 +3,11 @@ const asyncHandler = require("express-async-handler")
 const {body,validationResult} = require("express-validator")
 const { ObjectId} = require('mongodb')
 
+//now no matter if im logged in i get redirected home?
+
 exports.message_find = asyncHandler(async(req,res,next)=>{
+    if(req.user === undefined){return res.status(401).json({message:"failed"})}
+
     const userId = req.params.id
     try{ // Doesnt this fine id by the userId? So it will never find the messages? Change it to messages.author:id and recipitent:id
         const messageFound = await Messages.find({
@@ -17,6 +21,7 @@ exports.message_find = asyncHandler(async(req,res,next)=>{
 })
 
 exports.message_find_all = asyncHandler(async(req,res,next)=>{
+    if(req.user === undefined){return res.status(401).json({message:"failed"})}
     try{
         const messagesFound = await Messages.find({}).populate("author recipient").exec() //!Error here
         res.json(messagesFound)
@@ -24,6 +29,7 @@ exports.message_find_all = asyncHandler(async(req,res,next)=>{
 })
 
 exports.message_create = asyncHandler(async(req,res,next)=>{
+    if(req.user === undefined){return res.status(401).json({message:"failed"})}
     try{
         const newMessage = new Messages({
             author:req.user._id,
@@ -37,6 +43,7 @@ exports.message_create = asyncHandler(async(req,res,next)=>{
 })
 
 exports.message_delete = asyncHandler(async(req,res,next)=>{
+    if(req.user === undefined){return res.status(401).json({message:"failed"})}
     try{
         await Messages.findByIdAndDelete(req.params.id)
         res.json({message:"success"})
@@ -46,6 +53,7 @@ exports.message_delete = asyncHandler(async(req,res,next)=>{
 })
 
 exports.message_update = asyncHandler(async(req,res,next)=>{
+    if(req.user === undefined){return res.status(401).json({message:"failed"})}
     try{
         const newMessage ={
             // author: ,//! Need passport I think for this?
@@ -62,6 +70,7 @@ exports.message_update = asyncHandler(async(req,res,next)=>{
 })
 
 exports.open_message = async(req,res,next) => {
+    if(req.user === undefined){return res.status(401).json({message:"failed"})}
     const messageId = req.params.id
     try{
         const messageFound = await Messages.findById(messageId).populate("author recipient body.author").exec()
@@ -75,6 +84,7 @@ exports.open_message = async(req,res,next) => {
 }
 
 exports.message_append = async(req,res,next) => {
+    if(req.user === undefined){return res.status(401).json({message:"failed"})}
     const messageId = req.params.messageid
     const author = new ObjectId(req.body.author)
     try{

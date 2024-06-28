@@ -1,6 +1,7 @@
 import React from 'react'
 import Navbar from '../generalComponents/Navbar';
 import styles from "../../styles/userStyles/profile.module.css"
+import {useNavigate} from "react-router-dom"
 
 function Profile() {
     const [userData, setUserData] = React.useState([]);
@@ -18,6 +19,7 @@ function Profile() {
         about: ""
     })
     const [hover,setHover] = React.useState(false)
+    const navigate = useNavigate()
 
     //?--------------------------------- Get Id 
     const idUrl = window.location.href;
@@ -29,13 +31,13 @@ function Profile() {
     React.useEffect(()=>{
         fetch(`/api/user/find/${id}`)
             .then(res=>res.json())
-            .then(data => {console.log(data),setUserData(data)})
+            .then(data =>data.message==="failed" ? navigate("/") : setUserData(data))
             .catch(err => console.err(err))
             .finally(() => setLoading(false))
 
         fetch("/api/user/current")
             .then(res => res.json())
-            .then(data => setCurrentUser(data))
+            .then(data => data.message==="failed" ? navigate("/") :setCurrentUser(data))
             .catch(err => console.error(`there was an error fetching user ${err}`))
     },[id])
 

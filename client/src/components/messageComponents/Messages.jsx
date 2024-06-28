@@ -32,7 +32,7 @@ function Messages(){
         
         fetch("/api/messages/all")
         .then(res => res.json())
-        .then(data => setAllMessages(data))
+        .then(data => data.message==="failed" ? navigate("/") :allMessages(data))
         .catch(err => console.error(`error f8763a0etching all messages: ${err}`))
     },[])
 
@@ -84,7 +84,7 @@ function Messages(){
 
     // Mapping functions //    
 
-    const messagesMapped =  allUserMessages?.map(message => { //call messageHolder here
+    const messagesMapped =  allUserMessages.length > 0 && allUserMessages?.map(message => { //call messageHolder here
         let otherUser
         let otherUserColor
         if(message.author.username === currentUser.username){

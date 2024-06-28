@@ -11,6 +11,7 @@ function SignUp() {
         password: "",
         confirmPassword:""
     });
+    const [errorCreate,setErrorCreate] = React.useState()
     const navigate = useNavigate();
 
 
@@ -28,7 +29,8 @@ function SignUp() {
             const fetchParams = {method:'POST', headers:{"Content-Type":"application/json"},body:JSON.stringify(userData)}
             fetch("/api/user/create",fetchParams)
             .then(res => res.json())
-            .then(data=> data.message === "success" && navigate("/"))
+            .then(data=> {data.message === "success" ? navigate("/"): setErrorCreate(data.message)
+            })
             .catch(error => console.error("Error creating user",error))
         
         setUserData({
@@ -39,13 +41,15 @@ function SignUp() {
         })
     }
 
+    errorCreate && alert(errorCreate)
+
     return (
         <div className={styles.body}>
             <div className={styles.image}>
             </div>
             <div className={styles.info}>
                    <h1 className={styles.title}>Website name</h1>
-                    <form autocomplete="false" className={styles.sign_up_holder} onSubmit={handleSubmit}>
+                    <form autoComplete="false" className={styles.sign_up_holder} onSubmit={handleSubmit}>
                         <h1 className={styles.signUp}>Create Account</h1>
                         <div className={styles.inputItems}>
                             <div className={styles.itemInfo}>

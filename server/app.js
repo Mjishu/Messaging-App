@@ -81,6 +81,7 @@ passport.deserializeUser(async (id,done)=>{
 const indexRouter = require("./routes/index");
 const userRouter = require("./routes/users");
 const messageRouter = require("./routes/messages");
+
 app.use("/api",indexRouter);
 app.use("/api/user", userRouter);
 app.use("/api/messages", messageRouter)

@@ -26,7 +26,7 @@ function IdMessage(){
     React.useEffect(() => {
         fetch(`/api/messages/${messageId}`)
             .then(res => res.json())
-            .then(data => setMessageData(data))
+            .then(data => data.message==="failed" ? navigate("/"):setMessageData(data))
             .catch(err => console.log(`error fetching message: ${err}`))
             .finally(() => setLoading(false))
     }, [messageId])
