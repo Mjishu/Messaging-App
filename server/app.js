@@ -17,7 +17,7 @@ const User = require("./models/User.js")
 const bcrypt = require("bcrypt")
 
 const app = express();
-const port = process.env.PORT || 3254
+const port = process.env.PORT || 3002
 
 //* Mongoose Connection
 
@@ -107,6 +107,9 @@ app.use(function(err, req, res, next) {
 
 });
 
-app.listen(port, () => {console.log(`listening on port ${port}`)})
+mongoose.connection.once("open", ()=> {
+    app.listen(port, () => {console.log(`listening on port ${port}`)})
+})
 
-module.exports = app;
+
+module.exports = app
