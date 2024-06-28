@@ -8,7 +8,8 @@ const UserSchema = new Schema({
     password: {type:String, required:true},
     email: {type:String, required:true},
     contacts:{type:Schema.Types.ObjectId, ref:"User",}, //! Why isnt this showing up on user create
-    aboutUser:{
+    aboutUser:
+        {
             location:String,
             connect:{facebook:String, instagram:String,twitter:String},
             profession:String,
