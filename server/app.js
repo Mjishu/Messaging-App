@@ -34,7 +34,7 @@ app.use(passport.session());
 //? Routers and app usage
 
 const corsOptions ={
-    origin:"*",
+    origin:"https://messaging-app-swart.vercel.app",
     credentials:true,
     optionSuccessStatus:200
 }
