@@ -1,0 +1,14 @@
+.content{
+     margin:0;
+     padding:0;
+}
+
+.content *{
+    font-size:1.5rem;
+    font-weight:500;
+    cursor: pointer;
+}
+
+.content *:hover{
+    color: hsla(var(--dark),.75)
+}

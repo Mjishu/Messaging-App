@@ -50,8 +50,8 @@ p{
 .editBoard {
   width: 25rem; 
   border-radius: 8px;
-  background-color: white;
   padding: 20px;
+  background-color: hsl(var(--off-white));
   position: fixed;
   top: 50%;
   left: 50%;
@@ -105,7 +105,15 @@ form label{
 }
 
 form input{
-    width:fit-content
+    width:fit-content;
+    border:none;
+    border-radius: 10px;
+    box-shadow: 0 48px 83px hsla(var(--black),0),
+    0 36px 54px hsla(var(--black),0.01),
+    0 25px 44px hsla(var(--black),0.02),
+    0 14px 35px hsla(var(--black), 0.05),
+    0 5px 22px hsla(var(--black),0.09);
+    height:1.5rem;
 }
 
 .aboutInputUser{

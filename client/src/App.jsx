@@ -2,9 +2,11 @@ import React from 'react'
 import Navbar from './components/generalComponents/Navbar'
 import { Link, useNavigate } from 'react-router-dom'
 import styles from "./styles/generalStyles/home.module.css"
+import AllUsers from "./components/generalComponents/allUsers"
 
 function App() {
     const [currentUser, setCurrentUser] = React.useState()
+    const [allUsers, setAllUsers] = React.useState({})
     const navigate = useNavigate()
 
   React.useEffect(()=> {
@@ -12,6 +14,11 @@ function App() {
     .then(res => res.json())
     .then(data => setCurrentUser(data))
     .catch(error => console.error(error))
+
+      fetch('/api/user/all')
+      .then(res => res.json())
+      .then(data => setAllUsers(data))
+      .catch(err => console.error(err))
   },[])
 
 
@@ -21,6 +28,14 @@ function handleClick(){
     .then(data => data.success == true && window.location.reload())
     .catch(error => console.error(error))
 }
+
+function handleUserClick(id){
+    navigate(`/user/${id}`)
+}
+
+const usersMapped = allUsers.length > 0 && allUsers.map(user => {
+    return <AllUsers key={user._id} handleClick={handleUserClick} color={user.color} id={user._id} username={user.username}/>
+})
 
   return (
     <div className={styles.homeBodys}>
@@ -39,8 +54,12 @@ function handleClick(){
         ) : null}
         </div>
       {currentUser && currentUser.message !== "none" ?(
-          <button onClick={handleClick} className={styles.links}> Sign Out</button>
+          <button onClick={handleClick} className={`${styles.links} ${styles.linkButton}`}> Sign Out</button>
       ) : null}
+      </div>
+      <div className={styles.usersMapped}>
+      <h3> Users </h3>
+      {usersMapped}
       </div>
     </div>
   )
