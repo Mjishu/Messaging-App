@@ -10,7 +10,7 @@ function App() {
     const navigate = useNavigate()
 
     React.useEffect(()=> {
-        fetch("https://messaging-app-backend-miwr.onrender.com/api/user/current")
+        fetch("/api/user/current")
             .then(res => res.json())
             .then(data => setCurrentUser(data))
             .catch(error => console.error(error))
