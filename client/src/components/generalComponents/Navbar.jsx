@@ -20,7 +20,7 @@ function Navbar() {
       </div>
       <div className={styles.linkHolder}>
         <Link to="/message" className={styles.link}><img src="" alt="Messages"/></Link>
-        <img className={styles.logo} src="icons/message_logo.png" alt="logo" />
+        <img className={styles.logo} src="/icons/message_logo.png" alt="logo" />
       </div>
     </div>
   )
