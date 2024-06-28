@@ -34,7 +34,7 @@ app.use(passport.session());
 
 //? Routers and app usage
 const allowedOrigins = [
-    "https://messaging-app-4b6q.onrender.com/",
+    "https://messaging-app-4b6q.onrender.com",
 ]
 
 const corsOptions ={
